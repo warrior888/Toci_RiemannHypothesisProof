@@ -42,7 +42,8 @@ namespace Toci.PrimeNumbers
 
             //Azure.Response<ShareInfo> stream = client.Create(new ShareCreateOptions());
 
-            StreamWriter swr = new StreamWriter(@"D:\Toci\Primes.txt");
+            StreamWriter swr = new StreamWriter(@"H:\TociPrime.txt");
+            StreamWriter swr8 = new StreamWriter(@"H:\TociPrimes.txt");
 
             for (; ; )
             {
@@ -52,10 +53,10 @@ namespace Toci.PrimeNumbers
                     {
                         Length = N.ToString().Length;
 
-                        Two = 2 + Two * 10;
-                        MinusTwo = 2 + MinusTwo * 10;
-                        Four = 4 + Four * 10;
-                        Six = 6 + Six * 10;
+                        Two = Two + Two * 10;
+                        MinusTwo += MinusTwo;
+                        Four = Four + Four * 10;
+                        Six = Six + Six * 10;
                         Eight = 8 + Eight * 10;
                         Ten = 10 + Ten * 10;
                     }
@@ -67,13 +68,15 @@ namespace Toci.PrimeNumbers
                         if (N.ToString().Length > 19)
                         {
                             N = N | V;
-                            SaveToFile(N.ToString().Substring(1, 1), swr);
+                            SaveToFile(N.ToString().Substring(1, 1), swr); 
+                            SaveToFile(N, swr8);
                             //stream.GetRawResponse().ContentStream.Write(UTF8Encoding.GetEncoding(852).GetBytes(N.ToString().Substring(1, 1)));
                         }
                     }
                     catch
                     {
                         swr.Close();
+                        swr8.Close();
                     }
                 }
             }
@@ -81,7 +84,7 @@ namespace Toci.PrimeNumbers
 
         static void SaveToFile(UInt64 N, StreamWriter swr)
         {
-            swr.Write(N);
+            swr.WriteLine(N);
         }
 
         static void SaveToFile(string stringBuilder, StreamWriter swr)
