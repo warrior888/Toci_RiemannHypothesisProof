@@ -35,15 +35,15 @@ namespace Toci.PrimeNumbers
                 { 8, (n) => n - MinusTwo },
                 { 9, (n) => n + Six },
                 { 10, (n) => n + Two },
-                { 11, (n) => n + Six },
-                { 12, (n) => n + Two },
+                { 11, (n) => n + Four },
+                //{ 12, (n) => n + Two },
 
             };
 
             //Azure.Response<ShareInfo> stream = client.Create(new ShareCreateOptions());
 
-            StreamWriter swr = new StreamWriter(@"H:\TociPrime.txt");
-            StreamWriter swr8 = new StreamWriter(@"H:\TociPrimes.txt");
+            StreamWriter swr = new StreamWriter(@"C:\Users\bzapa\source\repos\toci_phoenix\happy13\happy13\TociPrime.txt");
+            StreamWriter swr8 = new StreamWriter(@"C:\Users\bzapa\source\repos\toci_phoenix\happy13\happy13\TociPrimes.txt");
 
             for (; ; )
             {
