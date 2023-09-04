@@ -9,7 +9,69 @@ namespace Toci.PrimeNumbers
 {
     class Program
     {
-        private const UInt64 V = 11000000000000000000;
+        protected static void isPrime(string can)
+        {
+            UInt64 numToCheck = UInt64.Parse(can);
+            Dictionary<UInt64, bool?> factors = CheckForPrime(numToCheck);
+
+            if (factors.Count == 0)
+            {
+                Console.WriteLine($"{numToCheck} is prime.");
+            }
+            else
+            {
+                Console.WriteLine($"{numToCheck} is a composite number.");
+                Console.WriteLine($"There are {factors.Count} factors in {numToCheck}.");
+
+                IEnumerable<UInt64> primeFactors = from factor in factors
+                                                where factor.Value == true
+                                                select factor.Key;
+
+                Console.WriteLine($"The largest prime factor is {primeFactors.Max()}");
+
+                Console.WriteLine();
+                Console.WriteLine("Here are all of the prime factors: ");
+
+                foreach (var factor in primeFactors)
+                {
+                    Console.WriteLine(factor);
+                }
+            }
+        }
+
+        private static  Dictionary<UInt64, bool?> CheckForPrime(UInt64 num)
+        {
+            Dictionary<UInt64, bool?> output = new Dictionary<UInt64, bool?>();
+
+            UInt64 max = num / 2;
+
+            for (UInt64 i = 2; i <= max; i++)
+            {
+                if (num % i == 0)
+                {
+                    output.Add(i, null);
+                }
+            }
+
+            if (output.Count > 0)
+            {
+                foreach (var factor in output.Keys.ToList())
+                {
+                    if (CheckForPrime(factor).Count == 0)
+                    {
+                        output[factor] = true;
+                    }
+                    else
+                    {
+                        output[factor] = false;
+                    }
+                }
+            }
+
+            return output;
+        }
+
+        private const UInt64 V = 11; //000000000000000000;
         static UInt64 Two = 2;
         static UInt64 MinusTwo = 2;
         static UInt64 Four = 4;
@@ -45,7 +107,7 @@ namespace Toci.PrimeNumbers
             StreamWriter swr = new StreamWriter(@"C:\Users\bzapa\source\repos\toci_phoenix\happy13\happy13\TociPrime.txt");
             StreamWriter swr8 = new StreamWriter(@"C:\Users\bzapa\source\repos\toci_phoenix\happy13\happy13\TociPrimes.txt");
 
-            for (; ; )
+            for (int i = 0; i < 20; i++)
             {
                 foreach (KeyValuePair<int, Func<UInt64, UInt64>> next in NextPrimeNumber.OrderBy(n => n.Key))
                 {
@@ -65,11 +127,13 @@ namespace Toci.PrimeNumbers
                     {
                         N = next.Value(N);
 
-                        if (N.ToString().Length > 19)
+                        //if (N.ToString().Length > 19)
                         {
                             N = N | V;
-                            SaveToFile(N.ToString().Substring(1, 1), swr); 
-                            SaveToFile(N, swr8);
+                            //SaveToFile(N.ToString().Substring(1, 1), swr); 
+                            //SaveToFile(N, swr8);
+
+                            isPrime(N.ToString());
                             //stream.GetRawResponse().ContentStream.Write(UTF8Encoding.GetEncoding(852).GetBytes(N.ToString().Substring(1, 1)));
                         }
                     }
